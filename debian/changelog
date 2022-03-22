@@ -1,4 +1,4 @@
-uModbus (1.0.5) stable; urgency=medium
+umodbus (1.0.5) stable; urgency=medium
 
   * Fork for the wirenboard. Add expected_response_size() function
 
