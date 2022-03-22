@@ -4,12 +4,15 @@ uModbus is a pure Python implementation of the Modbus protocol with support
 for Python 2.7, 3.4, 3.5, 3.6, 3.7 and 3.8.
 
 """
+from __future__ import unicode_literals
 import os
 from setuptools import setup
+import codecs
 
 cwd = os.path.dirname(os.path.abspath(__name__))
 
-long_description = open(os.path.join(cwd, 'README.rst'), 'r').read()
+f = codecs.open(os.path.join(cwd, 'README.rst'), 'r', encoding='utf-8')
+long_description = f.read()
 
 setup(name='uModbus',
       version='1.0.4',
