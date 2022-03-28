@@ -246,6 +246,8 @@ def raise_for_exception_adu(resp_adu):
     resp_pdu = resp_adu[7:]
     pdu_to_function_code_or_raise_error(resp_pdu)
 
+def expected_response_size(adu):
+    return expected_response_pdu_size_from_request_pdu(adu[7:]) + 7
 
 def send_message(adu, sock):
     """ Send ADU over socket to to server and return parsed response.
