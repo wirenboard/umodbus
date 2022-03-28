@@ -9,4 +9,4 @@ Standards-Version: 3.9.1
 Package: python3-umodbus
 Architecture: all
 Depends: python3, ${misc:Depends}, python3-serial
-Description: Wiren Board modbus library for modbus-utils-rpc(python 3)
+Description: Very small and lightweight pure Python implementation of the Modbus protocol
