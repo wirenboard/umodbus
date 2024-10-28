@@ -1,1 +1,1 @@
-buildDebArchAll()
+buildDebArchAll repos: ['release', 'devTools']
