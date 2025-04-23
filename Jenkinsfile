@@ -1,1 +1,3 @@
-buildDebArchAll repos: ['release', 'devTools']
+buildDebArchAll repos: ['release', 'devTools'],
+                defaultWbdevImage: 'registry.wirenboard.lan/contactless/devenv_test:trixie',
+                defaultDebianRelease: 'trixie'
