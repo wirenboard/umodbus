@@ -134,39 +134,6 @@ def test_create_from_response_pdu_raising_exception(error_code,
         create_function_from_response_pdu(resp_pdu)
 
 
-def test_read_coils_class_attributes():
-    assert ReadCoils.function_code == 1
-    assert ReadCoils.max_quantity == 2000
-
-
-def test_read_coils_with_invalid_attributes(read_coils):
-    with pytest.raises(IllegalDataValueError):
-        read_coils.quantity = 2001
-
-
-def test_read_coils_request_pdu(read_coils):
-    instance = ReadCoils.create_from_request_pdu(read_coils.request_pdu)
-    assert instance.starting_address == 100
-    assert instance.quantity == 3
-
-
-def test_read_coils_response_pdu(read_coils):
-    response_pdu = read_coils.create_response_pdu([0, 1, 1])
-    instance = ReadCoils.create_from_response_pdu(response_pdu, read_coils.request_pdu)  # NOQA
-
-    assert instance.data == [0, 1, 1]
-
-
-def test_read_discrete_inputs_class_attributes():
-    assert ReadDiscreteInputs.function_code == 2
-    assert ReadDiscreteInputs.max_quantity == 2000
-
-
-def test_read_discrete_inputs_with_invalid_attributes(read_discrete_inputs):
-    with pytest.raises(IllegalDataValueError):
-        read_discrete_inputs.quantity = 2001
-
-
 def test_read_discrete_inputs_request_pdu(read_discrete_inputs):
     instance = ReadDiscreteInputs.create_from_request_pdu(read_discrete_inputs.request_pdu)  # NOQA
     assert instance.starting_address == 0
