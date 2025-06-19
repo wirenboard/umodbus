@@ -21,8 +21,10 @@ def generate_look_up_table():
             data >>= 1
             if (data ^ crc) & 0x0001:
                 crc = (crc >> 1) ^ poly
-            else:
+            if not ((data ^ crc) & 0x0001):
                 crc >>= 1
+            else:
+                a=55
         table.append(crc)
 
     return table
