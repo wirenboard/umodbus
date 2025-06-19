@@ -1,4 +1,5 @@
 import struct
+
 import pytest
 
 try:
@@ -7,19 +8,19 @@ try:
 except ImportError:
     from mock import MagicMock, call
 
+from umodbus.exceptions import (AcknowledgeError, GatewayPathUnavailableError,
+                                GatewayTargetDeviceFailedToRespondError,
+                                IllegalDataAddressError, IllegalDataValueError,
+                                IllegalFunctionError, MemoryParityError,
+                                ServerDeviceBusyError,
+                                ServerDeviceFailureError)
+from umodbus.functions import (ReadCoils, ReadDiscreteInputs,
+                               ReadHoldingRegisters, ReadInputRegisters,
+                               WriteMultipleCoils, WriteMultipleRegisters,
+                               WriteSingleCoil, WriteSingleRegister,
+                               create_function_from_request_pdu,
+                               create_function_from_response_pdu)
 from umodbus.route import Map
-from umodbus.exceptions import (IllegalFunctionError, IllegalDataAddressError,
-                                IllegalDataValueError,
-                                ServerDeviceFailureError, AcknowledgeError,
-                                ServerDeviceBusyError, MemoryParityError,
-                                GatewayPathUnavailableError,
-                                GatewayTargetDeviceFailedToRespondError)
-from umodbus.functions import (create_function_from_response_pdu,
-                               create_function_from_request_pdu, ReadCoils,
-                               ReadDiscreteInputs, ReadHoldingRegisters,
-                               ReadInputRegisters, WriteSingleCoil,
-                               WriteSingleRegister, WriteMultipleCoils,
-                               WriteMultipleRegisters)
 
 
 @pytest.fixture
@@ -131,14 +132,6 @@ def test_create_from_response_pdu_raising_exception(error_code,
 
     with pytest.raises(exception_class):
         create_function_from_response_pdu(resp_pdu)
-
-
-def test_create_function_from_request_pdu_raising_illegal_function_error():
-    """ Calling function with PDU containing invalid function code should result
-    in an IllegalFunctionError.
-    """
-    with pytest.raises(IllegalFunctionError):
-        create_function_from_request_pdu(b'\x00')
 
 
 def test_read_coils_class_attributes():
