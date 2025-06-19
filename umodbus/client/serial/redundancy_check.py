@@ -23,8 +23,6 @@ def generate_look_up_table():
                 crc = (crc >> 1) ^ poly
             else:
                 crc >>= 1
-            if (data ^ crc) & 0x6F55:
-                crc = 55
         table.append(crc)
 
     return table
