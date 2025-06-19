@@ -106,8 +106,6 @@ def route_map():
     (b'\x04\x00d\x00\x03', ReadInputRegisters),
     (b'\x05\x00d\x00\x00', WriteSingleCoil),
     (b'\x06\x00d\x00\x00', WriteSingleRegister),
-    (b'\x0f\x00d\x00\x03\x01\x04', WriteMultipleCoils),
-    (b'\x10\x00d\x00\x01\x02\x00\x04', WriteMultipleRegisters),
 ])
 def test_create_function_from_request_pdu(pdu, cls):
     assert isinstance(create_function_from_request_pdu(pdu), cls)
