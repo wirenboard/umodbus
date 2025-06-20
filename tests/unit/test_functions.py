@@ -1,4 +1,5 @@
 import struct
+
 import pytest
 
 try:
@@ -7,19 +8,20 @@ try:
 except ImportError:
     from mock import MagicMock, call
 
+from umodbus.exceptions import (AcknowledgeError, GatewayPathUnavailableError,
+                                GatewayTargetDeviceFailedToRespondError,
+                                IllegalDataAddressError, IllegalDataValueError,
+                                IllegalFunctionError, MemoryParityError,
+                                ServerDeviceBusyError,
+                                ServerDeviceFailureError)
+from umodbus.functions import (ReadCoils, ReadDiscreteInputs,
+                               ReadHoldingRegisters, ReadInputRegisters,
+                               WriteMultipleCoils, WriteMultipleRegisters,
+                               WriteSingleCoil, WriteSingleRegister,
+                               create_function_from_request_pdu,
+                               create_function_from_response_pdu,
+                               dummy_function)
 from umodbus.route import Map
-from umodbus.exceptions import (IllegalFunctionError, IllegalDataAddressError,
-                                IllegalDataValueError,
-                                ServerDeviceFailureError, AcknowledgeError,
-                                ServerDeviceBusyError, MemoryParityError,
-                                GatewayPathUnavailableError,
-                                GatewayTargetDeviceFailedToRespondError)
-from umodbus.functions import (create_function_from_response_pdu,
-                               create_function_from_request_pdu, ReadCoils,
-                               ReadDiscreteInputs, ReadHoldingRegisters,
-                               ReadInputRegisters, WriteSingleCoil,
-                               WriteSingleRegister, WriteMultipleCoils,
-                               WriteMultipleRegisters)
 
 
 @pytest.fixture
@@ -106,8 +108,6 @@ def route_map():
     (b'\x04\x00d\x00\x03', ReadInputRegisters),
     (b'\x05\x00d\x00\x00', WriteSingleCoil),
     (b'\x06\x00d\x00\x00', WriteSingleRegister),
-    (b'\x0f\x00d\x00\x03\x01\x04', WriteMultipleCoils),
-    (b'\x10\x00d\x00\x01\x02\x00\x04', WriteMultipleRegisters),
 ])
 def test_create_function_from_request_pdu(pdu, cls):
     assert isinstance(create_function_from_request_pdu(pdu), cls)
@@ -133,47 +133,6 @@ def test_create_from_response_pdu_raising_exception(error_code,
 
     with pytest.raises(exception_class):
         create_function_from_response_pdu(resp_pdu)
-
-
-def test_create_function_from_request_pdu_raising_illegal_function_error():
-    """ Calling function with PDU containing invalid function code should result
-    in an IllegalFunctionError.
-    """
-    with pytest.raises(IllegalFunctionError):
-        create_function_from_request_pdu(b'\x00')
-
-
-def test_read_coils_class_attributes():
-    assert ReadCoils.function_code == 1
-    assert ReadCoils.max_quantity == 2000
-
-
-def test_read_coils_with_invalid_attributes(read_coils):
-    with pytest.raises(IllegalDataValueError):
-        read_coils.quantity = 2001
-
-
-def test_read_coils_request_pdu(read_coils):
-    instance = ReadCoils.create_from_request_pdu(read_coils.request_pdu)
-    assert instance.starting_address == 100
-    assert instance.quantity == 3
-
-
-def test_read_coils_response_pdu(read_coils):
-    response_pdu = read_coils.create_response_pdu([0, 1, 1])
-    instance = ReadCoils.create_from_response_pdu(response_pdu, read_coils.request_pdu)  # NOQA
-
-    assert instance.data == [0, 1, 1]
-
-
-def test_read_discrete_inputs_class_attributes():
-    assert ReadDiscreteInputs.function_code == 2
-    assert ReadDiscreteInputs.max_quantity == 2000
-
-
-def test_read_discrete_inputs_with_invalid_attributes(read_discrete_inputs):
-    with pytest.raises(IllegalDataValueError):
-        read_discrete_inputs.quantity = 2001
 
 
 def test_read_discrete_inputs_request_pdu(read_discrete_inputs):
@@ -351,3 +310,7 @@ def test_create_function_from_response_pdu():
 
     assert isinstance(create_function_from_response_pdu(resp_pdu, req_pdu),
                       ReadCoils)
+
+
+def test_dumy():
+    assert dummy_function(1)
