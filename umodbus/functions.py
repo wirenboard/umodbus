@@ -1601,3 +1601,9 @@ function_code_to_function_map = {
     WRITE_MULTIPLE_COILS: WriteMultipleCoils,
     WRITE_MULTIPLE_REGISTERS: WriteMultipleRegisters,
 }
+
+def dummy_function(test_value):
+    if test_value == 1:
+        return True
+    else:
+        return False

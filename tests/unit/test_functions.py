@@ -19,7 +19,8 @@ from umodbus.functions import (ReadCoils, ReadDiscreteInputs,
                                WriteMultipleCoils, WriteMultipleRegisters,
                                WriteSingleCoil, WriteSingleRegister,
                                create_function_from_request_pdu,
-                               create_function_from_response_pdu)
+                               create_function_from_response_pdu,
+                               dummy_function)
 from umodbus.route import Map
 
 
@@ -309,3 +310,7 @@ def test_create_function_from_response_pdu():
 
     assert isinstance(create_function_from_response_pdu(resp_pdu, req_pdu),
                       ReadCoils)
+
+
+def test_dumy():
+    assert dummy_function(1)
