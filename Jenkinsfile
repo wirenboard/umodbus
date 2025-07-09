@@ -1,3 +1,4 @@
 buildDebArchAll	repos: ['release', 'devTools'],
 		defaultRunCoverage: true,
-		defaultCoverageMin: "95"
+		defaultCoverageMin: "96",
+		defaultDoCoverallsReporting: true
